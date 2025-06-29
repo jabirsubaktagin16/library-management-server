@@ -57,13 +57,21 @@ const updateBook = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.bookId;
   const updatedData = req.body;
 
-  const result = await BookService.updateBook(id, updatedData);
+  try {
+    const result = await BookService.updateBook(id, updatedData);
 
-  sendResponse<IBook>(res, {
-    success: result === null ? false : true,
-    message: result === null ? 'Book not found' : 'Book updated successfully',
-    data: result,
-  });
+    sendResponse<IBook>(res, {
+      success: result === null ? false : true,
+      message: result === null ? 'Book not found' : 'Book updated successfully',
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      message: error.message,
+      success: false,
+      error,
+    });
+  }
 });
 
 const deleteBook = catchAsync(async (req: Request, res: Response) => {
