@@ -59,8 +59,29 @@ const getSingleBook = async (id: string): Promise<IBook | null> => {
   return result;
 };
 
+const updateBook = async (
+  id: string,
+  payload: Partial<IBook>,
+): Promise<IBook | null> => {
+  const isExist = await Book.findById(id);
+
+  if (!isExist) {
+    return null;
+  }
+
+  const { ...bookData } = payload;
+
+  const updatedBookData: Partial<IBook> = { ...bookData };
+
+  const result = await Book.findOneAndUpdate({ _id: id }, updatedBookData, {
+    new: true,
+  });
+  return result;
+};
+
 export const BookService = {
   addBook,
   getAllBooks,
   getSingleBook,
+  updateBook,
 };
