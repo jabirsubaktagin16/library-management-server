@@ -37,7 +37,6 @@ const getAllBooks = catchAsync(async (req: Request, res: Response) => {
   sendResponse<IBook[]>(res, {
     success: true,
     message: 'Books retrieved successfully',
-    meta: result.meta,
     data: result.data,
   });
 });
@@ -67,9 +66,22 @@ const updateBook = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const deleteBook = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.bookId;
+
+  const result = await BookService.deleteBook(id);
+
+  sendResponse<IBook>(res, {
+    success: !result ? false : true,
+    message: !result ? 'Book not found' : 'Book deleted successfully',
+    data: null,
+  });
+});
+
 export const BookController = {
   addBook,
   getAllBooks,
   getSingleBook,
   updateBook,
+  deleteBook,
 };
