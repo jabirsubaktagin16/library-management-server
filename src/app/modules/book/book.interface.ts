@@ -11,11 +11,10 @@ export type IBook = {
     | 'HISTORY'
     | 'BIOGRAPHY'
     | 'FANTASY';
-
   isbn: string;
   description?: string;
   copies: number;
-  available: boolean;
+  available: boolean | true;
 };
 
 export type BookModel = Model<IBook, Record<string, unknown>>;

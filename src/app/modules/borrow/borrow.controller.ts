@@ -24,6 +24,17 @@ const addBorrow = catchAsync(async (req: Request, res: Response) => {
   }
 });
 
+const getBorrowSummary = catchAsync(async (req: Request, res: Response) => {
+  const result = await BorrowService.getBorrowSummary();
+
+  sendResponse<IBorrow[]>(res, {
+    success: true,
+    message: 'Borrowed books summary retrieved successfully',
+    data: result.data,
+  });
+});
+
 export const BorrowController = {
   addBorrow,
+  getBorrowSummary,
 };

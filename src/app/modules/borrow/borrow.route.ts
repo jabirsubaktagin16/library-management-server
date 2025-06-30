@@ -5,4 +5,6 @@ const router = express.Router();
 
 router.post('', BorrowController.addBorrow);
 
+router.get('', BorrowController.getBorrowSummary);
+
 export const BorrowRoutes = router;
