@@ -1,5 +1,7 @@
 ## Library Management API
 
+**Live API Link:** https://library-management-server-iota-bice.vercel.app/
+
 ### Steps for Setup
 
 1. Clone this repository using following command
@@ -286,5 +288,98 @@ _Response:_
         "__v": 0,
         "id": "6862c4d1e550838802308f91"
     }
+}
+```
+
+**5. Delete Book**
+
+_API Endpoint (Method):_ `/api/books/:bookId` (PUT)
+_Response:_
+
+```
+{
+  "success": true,
+  "message": "Book deleted successfully",
+  "data": null
+}
+```
+
+To be noted, while deleting the books some validation has been added. The validations are given below:
+
+- If a book does not exist it will send a response mentioning that the book does not exist
+- If a book is borrowed and the book is deleted, then all borrowed history of the book will be deleted as well.
+
+#### Borrow
+
+**1. Borrow a Book**
+
+_API Endpoint (Method):_ `/api/borrow` (POST)
+
+Some business logics that were implemented to handle properly are given below:
+
+- Verify the book has enough available copies. If a book doesn't have enough copies it will throw an error mentioning the book doesn't have enough copies.
+- Requested quantity from the book’s copies will be deducted.
+- If copies become 0, `available` will be updated to `false`. This mechanism has been implemented using static method
+
+_Request:_
+
+```
+{
+	"book":  "6862c4d1e550838802308f91",
+	"quantity":  3,
+	"dueDate":  "2025-07-10"
+}
+```
+
+_Response:_
+
+```
+{
+    "success": true,
+    "message": "Book borrowed successfully",
+    "data": {
+        "book": "6862c4d1e550838802308f91",
+        "quantity": 3,
+        "dueDate": "2025-07-10T00:00:00.000Z",
+        "_id": "6863e5c99eccc173b84406d0",
+        "createdAt": "2025-07-01T13:42:33.489Z",
+        "updatedAt": "2025-07-01T13:42:33.489Z",
+        "__v": 0,
+        "id": "6863e5c99eccc173b84406d0"
+    }
+}
+```
+
+**2. Borrowed Books Summary**
+
+_API Endpoint (Method):_ `/api/borrow` (GET)
+
+Here, a summary of borrowed books will be returned, that includes:
+
+- Total borrowed quantity per book (`totalQuantity`)
+- Book details: `title` and `isbn`
+
+_Response:_
+
+```
+{
+    "success": true,
+    "message": "Borrowed books summary retrieved successfully",
+    "data": [
+        {
+            "totalQuantity": 3,
+            "book": {
+                "title": "Boundless Horizons",
+                "isbn": "978-1-22222-333-1"
+            }
+        },
+        {
+            "totalQuantity": 5,
+            "book": {
+                "title": "Under the Mango Tree",
+                "isbn": "978-1-44321-223-9"
+            }
+        }
+    ]
 }
 ```
