@@ -9,7 +9,7 @@ router.get('', BookController.getAllBooks);
 
 router.get('/:bookId', BookController.getSingleBook);
 
-router.put('/:bookId', BookController.updateBook);
+router.patch('/:bookId', BookController.updateBook);
 
 router.delete('/:bookId', BookController.deleteBook);
 

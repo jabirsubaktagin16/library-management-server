@@ -37,6 +37,7 @@ const getAllBooks = catchAsync(async (req: Request, res: Response) => {
   sendResponse<IBook[]>(res, {
     success: true,
     message: 'Books retrieved successfully',
+    meta: result.meta,
     data: result.data,
   });
 });
